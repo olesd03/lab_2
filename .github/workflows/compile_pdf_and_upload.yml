@@ -11,13 +11,12 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
+
       - name: Check commit message for version tag
         id: check_version
         run: |
           VERSION=$(echo "${{ github.event.head_commit.message }}" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" || echo "")
-          if [[ "$VERSION" != "" ]]; then
-            echo "::set-output name=version::$VERSION"
-          fi
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Compile LaTeX document
         uses: dante-ev/latex-action@latest
         with:
@@ -31,20 +30,19 @@ jobs:
           path: Main/main.pdf
 
       - name: Create Release
-        if: steps.check_version.outputs.version != ''
         id: create_release
+        if: env.VERSION != ''
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.check_version.outputs.version }}
-          release_name: Release ${{ steps.check_version.outputs.version }}
+          tag_name: ${{ env.VERSION }}
+          release_name: Release ${{ env.VERSION }}
           draft: false
           prerelease: false
 
       - name: Upload Release Asset
-        if: steps.check_version.outputs.version != ''
-        id: upload-release-asset
+        if: env.VERSION != ''
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

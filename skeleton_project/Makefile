@@ -1,41 +1,35 @@
-SIM := false
-SOURCES := main.c
 
-SOURCE_DIR := source
-BUILD_DIR := build
+EXECUTABLE  = elevator
 
-OBJ := $(patsubst %.c,$(BUILD_DIR)/%.o,$(SOURCES))
+COMPILER    = clang
+CFLAGS      = -Wall -g -std=gnu11 -fsanitize=address
+LDFLAGS     = -fsanitize=address
+EXCLUDE     = '*test*'
 
-DRIVER_ARCHIVE := $(BUILD_DIR)/libdriver.a
 
-ifeq ($(SIM),true)
-  DRIVER_SOURCE := hardware_sim.c
-  LDFLAGS := -L$(BUILD_DIR) -ldriver 
-else
-  DRIVER_SOURCE := hardware_sal.c io.c
-  LDFLAGS := -L$(BUILD_DIR) -ldriver -lcomedi 
-endif
+SOURCEDIR = source
+OBJECTDIR = build
 
-CC := gcc
-CFLAGS := -O0 -g3 -Wall -D_GNU_SOURCE -std=c11 -I$(SOURCE_DIR)
+SOURCES := $(patsubst $(SOURCEDIR)/%, %, $(shell find $(SOURCEDIR) -name '*.c'  ! -name $(EXCLUDE)  ! -path $(EXCLUDE)))
+OBJECTS = $(addprefix $(OBJECTDIR)/, $(SOURCES:.c=.o))
 
-.DEFAULT_GOAL := elevator
+all: $(EXECUTABLE) 
 
-elevator : $(OBJ) | $(DRIVER_ARCHIVE)
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+rebuild: clean all
+	
+clean:
+	rm -f $(EXECUTABLE)
+	rm -rf $(OBJECTDIR)
 
-$(BUILD_DIR) :
-	mkdir -p $@/driver
+## executable depends on object files: link them
+$(EXECUTABLE): $(OBJECTS) 
+	$(COMPILER) $^ -o $@ $(LDFLAGS)
 
-$(BUILD_DIR)/%.o : $(SOURCE_DIR)/%.c | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+## object files depend on source files: compile them
+$(OBJECTDIR)/%.o: $(SOURCEDIR)/%.c
+	@mkdir -p $(@D)
+	$(COMPILER) -o $@ -c $(CFLAGS) $<
 
-$(BUILD_DIR)/driver/%.o : $(SOURCE_DIR)/driver/%.c | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	
+.PHONY: all rebuild clean
 
-$(DRIVER_ARCHIVE) : $(DRIVER_SOURCE:%.c=$(BUILD_DIR)/driver/%.o)
-	ar rcs $@ $^
-
-.PHONY: clean
-clean :
-	rm -rf $(BUILD_DIR) elevator

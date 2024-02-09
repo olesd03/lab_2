@@ -90,7 +90,7 @@ Det er på dette stadiet dere skriver kode. Hvis dere har lagt inn en grei innsa
 
 Det kan også være interessant å nevne forskjellen mellom å \textit{programmere inn i et språk} og \textit{programmere i et språk}. Om man programmerer \textit{i et språk}, vil man begrense abstraksjonskonseptene og tankesettet sitt til de primitivene som språket direkte støtter. Om man deretter programmerer \textit{inn i et språk} vil man først bestemme seg for hvilke konsepter man ønsker å strukturere programmet inn i, og deretter finne måter å implementere konseptene på i språket man skriver.
 
-\textbf{Eksempel}: \verb|C| er ikke i utgangspunktet objektorientert. Allikevel kan man se på hver klasse i et klasse-diagram som en egen modul, hvor alle funksjonene som modulen gjør tilgjengelig svarer til offentlige medlemsfunksjoner i en klasse.
+\textbf{Eksempel}: \verb|C| er i utgangspunktet ikke objektorientert. Allikevel kan man se på hver klasse i et klasse-diagram som en egen modul, hvor alle funksjonene som modulen gjør tilgjengelig svarer til offentlige medlemsfunksjoner i en klasse.
 
 På den annen side er det selvsagt en fordel å benytte seg av de primitivene et språk støtter direkte, fremfor å prøve å tvinge inn funksjonalitet som ikke gis av språket, men det er alltid greit å tenke gjennom et program som en abstrakt oppskrift på hvordan man løser et problem - før man tenker for eksempel: \textit{dette kan implementeres som en klasse som arver fra en annen}.
 
@@ -110,9 +110,9 @@ Antallet tester er ikke et bra mål på hvor godt testet en modul er, så sikt h
 
 \subsection{Integrasjonstesting}
 
-Enhetstesting foregår på modul-nivå og svarer på spørsmålet: \textit{Fungere denne modulen som den skal?}. Integrasjonstesting speiler arkitekturdesignfasen, og svarer på spørsmålet: \textit{Fungerer denne modulen sammen med andre moduler?}. Her vil man typisk prøve ut hele- eller nesten hele programmet på en spesifikk funksjonalitet. Om man har tatt seg god tid til å lage gode seksvensdiagrammer, kommer disse godt med i denne fasen.
+Enhetstesting foregår på modul-nivå og svarer på spørsmålet: \textit{Fungere denne modulen som den skal?}. Integrasjonstesting speiler arkitekturdesignfasen, og svarer på spørsmålet: \textit{Fungerer denne modulen sammen med andre moduler?}. Her vil man typisk prøve ut hele, eller nesten hele programmet på en spesifikk funksjonalitet. Om man har tatt seg god tid til å lage gode seksvensdiagrammer, kommer disse godt med i denne fasen.
 
-Integrasjonstesting kan enten være en særdeles enkel oppgave, eller veldig komplisert, avhengig av graden kobling man har mellom modulene i programmet. Moduler som avhenger sterkt av andre moduler blir nødvendigvis både vanskeligere å teste, og å vedlikehold. Derfor er det ønskelig at moduler kun vet om - og kommuniserer med akkurat de modulene den trenger.
+Integrasjonstesting kan enten være en særdeles enkel oppgave, eller veldig komplisert, avhengig av graden kobling man har mellom modulene i programmet. Moduler som avhenger sterkt av andre moduler blir nødvendigvis både vanskeligere å teste, og å vedlikeholde. Derfor er det ønskelig at moduler kun vet om, og kommuniserer med, akkurat de modulene den trenger.
 
 \textbf{Eksempel}: 23. September 1999 ble \textit{Mars Climate Orbiter} tapt etter at fartøyet enten gikk i stykker i Mars' atmosfære, eller spratt tilbake til en utilsiktet heliosentrisk bane. Styringssystemet til sonden bestod av software skrevet av Lockheed Martin og NASA: Begge hadde testet sine egne moduler, men Lockheed Martin sine moduler opererte med \textit{pund per sekund} (\si{\pound\s}), mens NASA sine moduler opererte med \textit{newton per sekund} (\si{\N\s}). Manglende integrasjonstesting endte totalt opp med å koste NASA JPL omlag 330 millioner amerikanske dollar.
 
@@ -122,10 +122,10 @@ Integrasjonstesting kan enten være en særdeles enkel oppgave, eller veldig kom
 Kravspesifikasjonene som FAT-en er basert på finner dere i appendiks \ref{app:FATkrav}, mens selve FAT-testen som baserer seg på kravspesifikasjonene finner dere i appendiks \ref{app:FAT-test}. I praksis så er det vanlig at kunde og leverandør avtaler disse på forhånd. FAT-en bestemmer i hvilken grad dere har implementert et korrekt system og er en direkte gjenspeiling av kravspesifikasjonen fra appendiks \ref{app:FATkrav}, så om dere oppfyller alle kravene som er satt av den, har dere implementert et fullverdig system.
 
 
-\subsection{FAT - Heisspesifkasjoner}\label{app:FATkrav}
+\subsection{FAT - Heisspesifikasjoner}\label{app:FATkrav}
 
 
-\begin{table}[ht]
+\begin{table}[H]
     \centering
     \caption*{\textbf{\textcolor{NTNU_blue}{Krav}: \underline{Oppstart}}}
     \begin{tabular}{@{}  |p{1.25cm}| p{12.25cm}|  @{}}
@@ -139,7 +139,7 @@ Kravspesifikasjonene som FAT-en er basert på finner dere i appendiks \ref{app:F
 \end{table}
 
 
-\begin{table}[ht]
+\begin{table}[H]
     \centering
     \caption*{\textbf{\textcolor{NTNU_blue}{Krav}: \underline{Håndtering av bestillinger}}}
     \begin{tabular}{@{}  |p{1.25cm}| p{12.25cm}|  @{}}
@@ -323,36 +323,49 @@ Kravspesifikasjonene som FAT-en er basert på finner dere i appendiks \ref{app:F
     \end{tabular}
 \end{table}
 
-\section{Appendiks - Kommentar til refleksjonsdelen }\label{app:refleksjon}
+\section{Appendiks - Bruk av KI}\label{sec:KI}
 
-I refleksjonsdelen, så er meningen at dere skal få litt tid til å reflektere for å deretter få mer innsikt i hva dere faktisk har gjort. Dette er spesielt viktig når man bruker verktøy som UML og V-modellen, hvor hva man planlegger ikke alltid er det som faktisk blir implementert. Dette kan være på grunn av at man finner andre mer hensiktsmessige måter å designe/velge moduler på, eller rett og slett fordi man innser at de valgene man tok på starten ikke leder til et robust, skalerbart, eller vedlikeholdbart system som til syvende og sist er det viktigste for et slikt system. 
+Dere må oppgi all bruk av KI-baserte vertkøy i arbeidet med heisprosjektet. 
+Merk også at "feil" (dvs. åpen-sløyfe, se under) bruk av KI til å oppnå målene med prosjektet kun vil medføre redusert læring for den som velger å gjøre dette. 
 
-Denne delen skal mest være for at dere skal få muligheten til å snakke med studass/vitass og få umiddelbar kommentar istedenfor at dere skal sende inn en rapport og få kommentarer uker senere.
+Angående bruk av kunstig intelligens (KI) i programvareutvikling, kan man skille mellom to ulike bruksvarianter: åpen-sløyfe-bruk, og lukket-sløyfe-bruk. I kybernetikken introduseres vi for mange ulike redskap som vi kan benytte oss av til problemløsning, for eksempel Fourier-analyse og PID-regulatorer. KI kan også sees på som et slikt redskap, og i likhet med de andre redskapene, er vi nødt til å vite hvordan man faktisk skal bruke det. På samme måte som en kalkulator eller en datamaskin kan regne ut regnestykker for oss, kan KI hjelpe oss å løse problemer som ellers hadde vært tidskrevende. Det som skiller KI og en kalkulator er innsikt i hvordan redskapene fungerer. Vi stoler på en kalkulator siden vi kan reprodusere og bekrefte informasjonen den gir oss via matematikk og algoritmer vi har lært gjennom utdanningen vår. På samme måte er det viktig at vi er klar over hvilken variant av KI vi bruker, og sørger for å bekrefte informasjonen KI-en gir oss, for å lukke sløyfen. Det spiller ingen rolle hvor rett kalkulatoren regner om vi skriver inn feil input, og det samme gjelder KI, spesielt av typen tekstgenererende språkmodeller som OpenAI sin \verb|ChatGPT| og Meta sin \verb|Llama|. Kort fortalt prøver språkmodeller å forutsi hva neste ord bør være gitt en tekststreng. Store språkmodeller er ikke-deterministiske, og har tendenser til å "hallusinere", altså at språkmodellen oppgir falsk informasjon som fakta. Hold derfor et kritisk blikk på hallusineringshyppigheten til språkmodellene dere bruker. Vi anbefaler at dere tar en titt på \href{https://huggingface.co/spaces/vectara/leaderboard}{denne siden} med hallusineringshyppigheter før dere eventuelt tar i bruk KI i dette faget eller andre fag under studiet.
 
+Oppsummert forventer vi to ting fra studenter i TTK4235 når det gjleder KI: at dere ikke bruker KI i åpen-sløyfe, og at dere alltid har et kritisk blikk på hva som genereres. I tillegg forventer vi at dere er ærlige om bruk av KI, og ikke angir arbeidet til KI som deres eget. 
+
+\section{Appendiks - Kommentar til refleksjonsdelen}\label{app:refleksjon}
+
+I refleksjonsdelen, så er meningen at dere skal få litt tid til å reflektere rundt arbeidet deres, for å oppnå økt innsikt i hva dere faktisk har gjort. Dette er spesielt viktig når man bruker verktøy som UML og V-modellen, hvor det man planlegger ikke nødvendigvis er det som faktisk blir implementert. Dette kan være på grunn av at man finner andre mer hensiktsmessige måter å designe/velge moduler på, eller rett og slett fordi man innser at de valgene man tok på starten ikke leder til et robust, skalerbart, eller vedlikeholdbart system som til syvende og sist er det viktigste for et slikt system. 
+
+Generativ KI er et relativt nytt verktøy, og det kan derfor være nyttig å være kritisk, og stille spørsmål ved hva man får som svar, når man bruker det. Bruk av KI er ikke problematisk i seg selv, men det er viktig å være klar over at det kun er et verktøy, og ingen erstatning for sunn fornuft og vitenskapelige metoder.
+
+Denne delen gir dere noen eksempler på spørsmål dere burde stille dere selv i arbeidet med heislaben, og som burde drøftes rundt i rapporten deres. Dere behøver ikke besvare nøyaktig disse spørsmålene, men de gir dere et inntrykk av hva som kan være lurt å skrive om i refleksjonsdelen av rapporten.
 
 \subsection{UML og V-modellen}
 \begin{itemize}
-    \item Hvordan har bruken av UML og V-modellen påvirket implementasjonen i startsfasen?
-    \item Hvordan har bruken av UML og V-modellen påvirket implementasjonen i midtfasen?
-    \item Hvordan har bruken av UML og V-modellen påvirket implementasjonen i sluttfasen?
-    \item Hadde prosjektet blitt lettere/vanskeligere uten UML og V-modellen? Kunne prosjektet ha blitt mye lettere med en annen metode?
+    \item Hvordan har bruken av UML og V-modellen påvirket implementasjonen i start-, midt-, og sluttfasen?
+    \item Hvilke deler av det opprinnelige designet deres ble endret på underveis, og hvorfor?
+    \item Hadde prosjektet blitt lettere/vanskeligere uten UML og V-modellen? Kunne prosjektet ha blitt lettere med en annen metode?
 \end{itemize}
 
+\subsection{KI}
+\begin{itemize}
+    \item Hva har KI blitt brukt til i prosjektet?
+    \item Hvilke effekter har KI hatt på deres arbeid med prosjektet?
+\end{itemize}
 
 \subsection{Robusthet, skalarbarhet og vedlikehold}
 
 
 \begin{itemize}
-    \item Oppgaven har ikke eksplisitt sagt at robusthet, skalarbarhet, og vedlikehold skal prioriteres, men har bruken av UML og V-modellen bidratt til at noen av disse egenskapene har blitt fremmet? I såfall, hvilken?
+    \item Oppgaven har ikke eksplisitt sagt at robusthet, skalerbarhet, og vedlikehold skal prioriteres, men har bruken av UML og V-modellen bidratt til at noen av disse egenskapene har blitt fremmet? I så fall, hvilke?
     \item Alternativt, har bruken av UML og V-modellen gjort at robustheten, skalarbarheten eller vedlikeholden verre enn ved å ikke bruke UML eller V-modellen i det hele tatt?
 \end{itemize}
-
 
 \section{Appendiks - Heissimulator   }\label{app:SImulator}
 
 I tillegg til den fysiske heisen, har vi en heissimulator\footnote{Skrevet av Torjus Bakkene og Erlend Blomseth.} som kan brukes dersom man har lyst til å jobbe hjemme. Denne simulatoren har samme funksjonalitet som den fysiske heisen på sanntidssalen, og fungerer som et ypperlig verktøy dersom man vil teste heiskoden hjemme. Det som gjør heissimulatoren spesielt interessant, er at man kan velge hvor mange etasjer heisen eventuelt skal ha. Dere kan derfor teste ut programmet deres på en heis som har mange flere etasjer, enn det heisen på sanntidssalen har.
 
-\textbf{Liten advarsel til folk som bruker macOS eller Windows:} Denne simulatoren er beregnet på Linux. Det er ingen garanti at den funker på macOS eller Windows. Dersom dere ikke har Linux på personlig datamaskin, er det anbefalt å laste ned Ubuntu enten gjennom \textit{dual booting}, eller med en virtuell maskin (referer til øving 1 for hvordan dette gjøres).
+\textbf{Liten advarsel til folk som bruker macOS eller Windows:} Denne simulatoren er beregnet på Linux. Det er ingen garanti at den funker sømløst på macOS eller Windows. Dersom dere ikke har Linux på personlig datamaskin, er det anbefalt å bruke Ubuntu i et virtuelt miljø som \href{https://learn.microsoft.com/en-us/windows/wsl/install}{Windows Subsystem For Linux (WSL)} eller alternativ som \href{https://github.com/lima-vm/lima}{Lima} eller \href{https://www.parallels.com/products/desktop/trial/}{Parallels for MacOS}. Det er utgitt ferdigkompilerte programmer for Windows og Linux, men dersom du ønsker å bruke simulatoren på MacOS henviser vi til  \href{https://github.com/ITK-TTK4235/elevator_simulator#compiling-from-source}{dokumentasjonen på Github} for hvordan man kompilerer simulatoren. 
 
 
 
@@ -406,6 +419,8 @@ For å bruke heissimulatoren, bruker man følgende tastetrykk for å styre den s
     \item Stoppknapp        : \verb|p|
 \end{itemize}
 
+\subsection{Heissimulator for MacOS og Windows}
+Github-organisasjonen for TTK4235 inneholder en \verb|fork| av {\it Simulator-V2}, skrevet av Torjus Bakkene og Erlend Blomseth. \verb|elevator_simulator|, tilgjengelig via \href{https://github.com/ITK-TTK4235/elevator_simulator}{denne lenken her}, inneholder binærfiler for simulatoren for Linux og Windows. Repositoriet inneholder også dokumentasjon for hvordan man kompilerer heissimulatoren på MacOS. 
 
 \clearpage
 
@@ -630,3 +645,6 @@ Under er det oppgitt en liste av hva som regnes som god kodekvalitet i dette fag
     
     \item Det er helt greit å være uenig i denne listen, eller ha andre konvensjoner dere vil heller følge, så lenge dette kan argumenteres for at de gir god lesbarhet og vedlikeholdbarhet.
 \end{itemize}
+
+% \section{Appendiks - Git-historikk}\label{sec:app-git}
+% Bruk git slik beskrevet i øving 2. Bruk valgfri 

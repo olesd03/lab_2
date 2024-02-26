@@ -5,6 +5,30 @@
 #include "driver/elevio.h"
 #include "orderArray.h"
 
+void updateFloorIndicator(int orders[], int floor) {
+    for (int i=0; i<4; i++) {
+        if (orders[i]=floor) {
+            elevio_floorIndicator(floor+1);
+        }
+    }
+}
+
+void printStates(int orders[],int *floor, state *elev_state, int *minOrder, int *maxOrder, bool *orders_empty) {
+    printf("Current floor: %d\n",floor);
+    printf("State: %d\n",elev_state);
+    printf("{%d,%d,%d,%d}\n",orders[0],orders[1],orders[2],orders[3]);
+    printf("minOrder: %d\n",minOrder);
+    printf("maxOrder: %d\n",maxOrder);
+    printf("orders_empty: %d\n\n,",orders_empty);
+}
+
+void updateStates(int orders[],int maxOrder, int minOrder, int floor, bool floor_in_orders) {
+    UpdateMaxOrder(orders, &maxOrder);
+    UpdateMinOrder(orders, &minOrder);
+    UpdateFloor(&floor);
+    UpdateFloorInOrders(orders, &floor, &floor_in_orders);
+}
+
 void goUpToClosest(void) {
     while (elevio_floorSensor() == -1) {
         elevio_motorDirection(DIRN_UP); 
@@ -41,12 +65,7 @@ int main(){
             elevio_motorDirection(DIRN_STOP);
             UpdateOrdersEmpty(orders, &orders_empty);
 
-            printf("Current floor: %d\n",floor);
-            printf("State: %d\n",elev_state);
-            printf("{%d,%d,%d,%d}\n",orders[0],orders[1],orders[2],orders[3]);
-            printf("minOrder: %d\n",minOrder);
-            printf("maxOrder: %d\n",maxOrder);
-            printf("orders_empty: %d\n\n,",orders_empty);
+            printStates(orders,&floor,&elev_state,&minOrder,&maxOrder,&orders_empty);
 
             if (!(orders_empty)) {
                 UpdateMaxOrder(orders, &maxOrder);
@@ -72,12 +91,7 @@ int main(){
             UpdateMaxOrder(orders, &maxOrder);
             UpdateMinOrder(orders, &minOrder);
 
-            printf("Current floor: %d\n",floor);
-            printf("State: %d\n",elev_state);
-            printf("{%d,%d,%d,%d}\n",orders[0],orders[1],orders[2],orders[3]);
-            printf("minOrder: %d\n",minOrder);
-            printf("maxOrder: %d\n",maxOrder);
-            printf("orders_empty: %d\n\n,",orders_empty);
+            printStates(orders,&floor,&elev_state,&minOrder,&maxOrder,&orders_empty);
 
             if (floor_in_orders) {
                 elevio_motorDirection(DIRN_STOP);
@@ -105,12 +119,7 @@ int main(){
             UpdateMaxOrder(orders, &maxOrder);
             UpdateMinOrder(orders, &minOrder);
 
-            printf("Current floor: %d\n",floor);
-            printf("State: %d\n",elev_state);
-            printf("{%d,%d,%d,%d}\n",orders[0],orders[1],orders[2],orders[3]);
-            printf("minOrder: %d\n",minOrder);
-            printf("maxOrder: %d\n",maxOrder);
-            printf("orders_empty: %d\n\n,",orders_empty);
+            printStates(orders,&floor,&elev_state,&minOrder,&maxOrder,&orders_empty);
 
             if (floor_in_orders) {
                 elevio_motorDirection(DIRN_STOP);
